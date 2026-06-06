@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Register {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
+{% endblock %}
 
 {% block content %}
 
