@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'registary',
 ]
 
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
