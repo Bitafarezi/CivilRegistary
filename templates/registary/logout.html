@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Logout {% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
 {% endblock %}
-
 
 {% block content %}
 
@@ -14,21 +13,16 @@
 
         {% csrf_token %}
 
-        <h1> Log In</h1>
+        <h1> Log Out </h1>
 
         {{ form }}
 
-        <button class="form-submit">Log In</button>
+        <button class="form-submit">Log Out</button>
 
-        <div class="back-link">
-            <p>
-                Dont have an account?
-                <a href="{% url 'register' %}">Sign Up</a>
-            </p>
-        </div>
+        <button class="back-link" type="submit">
+            <a href="{% url 'home' %}">Cancel</a>
+        </button>
 
     </form>
-
-    
 
 {% endblock %}
