@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Profile {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="column">
+            <h1>User Profile</h1>
+            <table>
+                <tr>
+                    <th>UserName</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>National ID</th>
+                    <td>{{ user.nationalID }}</td>
+                </tr>
+            </table>
+            <div class="back-link">
+                <a href="{% url 'home' %}" class="btn-edit">Edit Info</a>
+            </div>
+        </div>
+    </div>
+        
+
+{% endblock %}

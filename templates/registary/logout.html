@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Logout {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <form class="form-with-validation" method="post">
+
+        {% csrf_token %}
+
+        <h1> Log Out </h1>
+
+        {{ form }}
+
+        <button class="form-submit">Log Out</button>
+
+        <button class="back-link" type="submit">
+            <a href="{% url 'home' %}">Cancel</a>
+        </button>
+
+    </form>
+
+{% endblock %}

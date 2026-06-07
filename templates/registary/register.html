@@ -9,17 +9,25 @@
 
 {% block content %}
 
-    <h1> Register a New User </h1>
-
     <form class="form-with-validation" method="post">
 
         {% csrf_token %}
 
+        <h1> Register a New User </h1>
+
         {{ form }}
 
-        <button class="form-submit">Submit</button>
+        <button class="form-submit">Sign Up</button>
+
+        <div class="back-link">
+            <p>
+                Already have an account?
+                <a href="{% url 'login' %}">Sign In</a>
+            </p>
+        </div>
 
     </form>
-    
 
+
+    
 {% endblock %}
