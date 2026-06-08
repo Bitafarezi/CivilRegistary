@@ -27,4 +27,36 @@ class UserRegistrationForm(UserCreationForm):
             raise forms.ValidationError("This National ID is already registered.")
         return national_id
 
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+        if commit:
+            # Create or get Citizen object
+            citizen, created = Citizen.objects.get_or_create(
+                national_id=self.cleaned_data.get('national_id'),
+                defaults={
+                    'first_name': self.cleaned_data.get('first_name'),
+                    'last_name': self.cleaned_data.get('last_name'),
+                    'phone_number': self.cleaned_data.get('phone_number'),
+                    'father_name': self.cleaned_data.get('father_name'),
+                    'birth_date': self.cleaned_data.get('birth_date'),
+                    'address': self.cleaned_data.get('address'),
+                }
+            )
+            # If citizen already existed but not connected to this user, update its info (optional)
+            if not created:
+                citizen.first_name = self.cleaned_data.get('first_name')
+                citizen.last_name = self.cleaned_data.get('last_name')
+                citizen.phone_number = self.cleaned_data.get('phone_number')
+                citizen.father_name = self.cleaned_data.get('father_name')
+                citizen.birth_date = self.cleaned_data.get('birth_date')
+                citizen.address = self.cleaned_data.get('address')
+                citizen.save()
+
+            # Connect Citizen to UserProfile
+            profile = user.profile
+            profile.citizen = citizen
+            profile.save()
+        return user
+
+
     
