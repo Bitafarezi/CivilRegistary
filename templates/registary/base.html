@@ -1,37 +1,82 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} {% endblock %}</title>
-    {% block css %}{% endblock %}
+    <title>{% block title %}Civil Registration{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'registary/styles.css' %}">
+    <style>
+        /* Override or supplement Bootstrap with user's background preference */
+        body { 
+            background-image: url("{% static 'registary/splash.png' %}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .navbar { margin-bottom: 20px; }
+        /* Ensure containers are visible over the background */
+        .main-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+    
 </head>
 <body>
-    <!-- Add navigation for faster accessablity-->
-    <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a href="../register">Register</a>
-        <a href="../login">Login</a>
-        <a href="../logout">Logout</a>
-        <a href="../profile">Profile</a>
-        <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit"> 
-                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="Search--Streamline-Unicons" height="16" width="16">
-                        <desc>
-                            Search Streamline Icon: https://streamlinehq.com
-                        </desc>
-                        <path d="m15.6198 14.513133333333332 -2.9068666666666663 -2.8834c1.1283333333333332 -1.4068666666666667 1.6747999999999998 -3.1926666666666663 1.5269333333333333 -4.990066666666666 -0.14786666666666665 -1.7973999999999999 -0.9787333333333332 -3.4698666666666664 -2.3218666666666667 -4.673533333333333C10.575 0.7625333333333333 8.821733333333333 0.11926666666666666 7.018933333333333 0.1686 5.216066666666666 0.21793333333333334 3.5006666666666666 0.9561333333333333 2.2253999999999996 2.2314S0.212 5.222066666666667 0.16266666666666665 7.024866666666666c-0.049333333333333326 1.8028 0.5939333333333333 3.5560666666666667 1.7975333333333332 4.899133333333333 1.2035999999999998 1.3431333333333333 2.8760666666666665 2.174 4.673533333333333 2.3217999999999996 1.7973999999999999 0.14786666666666665 3.583133333333333 -0.3985333333333333 4.990066666666666 -1.5269333333333333l2.8834 2.8834c0.07286666666666666 0.07339999999999999 0.15953333333333333 0.1317333333333333 0.255 0.17153333333333332 0.09546666666666666 0.0398 0.19786666666666666 0.06026666666666666 0.30133333333333334 0.06026666666666666s0.20579999999999998 -0.020466666666666668 0.30133333333333334 -0.06026666666666666c0.09546666666666666 -0.0398 0.18206666666666665 -0.09813333333333332 0.25493333333333335 -0.17153333333333332 0.1412 -0.14613333333333334 0.22019999999999998 -0.3414 0.22019999999999998 -0.5445333333333333s-0.07899999999999999 -0.39846666666666664 -0.22019999999999998 -0.5445333333333333Zm-8.3916 -1.7942666666666665c-1.0848 0 -2.1452 -0.32166666666666666 -3.0472 -0.9243333333333333 -0.9019333333333333 -0.6026666666666667 -1.6049333333333333 -1.4592666666666665 -2.0200666666666667 -2.4614666666666665 -0.41513333333333335 -1.0022 -0.5237333333333333 -2.1050666666666666 -0.31206666666666666 -3.1689333333333334 0.2116 -1.0639333333333334 0.734 -2.0412666666666666 1.501 -2.8082666666666665 0.7670666666666667 -0.7670666666666667 1.744333333333333 -1.2894666666666665 2.8082666666666665 -1.5010666666666665 1.0639333333333334 -0.21166666666666667 2.1668 -0.103 3.1689999999999996 0.3121333333333333 1.0022 0.4150666666666667 1.8587333333333333 1.1180666666666665 2.4614666666666665 2.0200666666666667 0.6026666666666667 0.9019333333333333 0.9243333333333333 1.962333333333333 0.9243333333333333 3.0471333333333335 0 1.4546666666666666 -0.5778666666666666 2.8497333333333335 -1.6064666666666665 3.878333333333333 -1.0286 1.0285333333333333 -2.4236666666666666 1.6064 -3.8782666666666668 1.6064Z" fill="#000000" stroke-width="0.6667"></path>
-                    </svg>
-                </button>
-            </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">CivilReg</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Search</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                        {% if user.is_staff %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'admin_dashboard' %}">Management</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn nav-link">Logout ({{ user.username }})</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
     </div>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

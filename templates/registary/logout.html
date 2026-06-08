@@ -1,28 +1,15 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'registary/base.html' %}
 
-{% block title %} Logout {% endblock %}
-
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
-{% endblock %}
+{% block title %} Logged Out {% endblock %}
 
 {% block content %}
-
-    <form class="form-with-validation" method="post">
-
-        {% csrf_token %}
-
-        <h1> Log Out </h1>
-
-        {{ form }}
-
-        <button class="form-submit">Log Out</button>
-
-        <button class="back-link" type="submit">
-            <a href="{% url 'home' %}">Cancel</a>
-        </button>
-
-    </form>
-
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center mt-5">
+        <div class="main-container">
+            <h2>You have been logged out</h2>
+            <p>Thank you for using CivilReg.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
