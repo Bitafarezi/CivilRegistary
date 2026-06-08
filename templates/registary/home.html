@@ -1,15 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'registary/base.html' %}
 {% load static %}
 
 {% block title %} Home {% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'registary/styles.css' %}">
-{% endblock %}
-
-
 {% block content %}
-
-    <h1>Welcome</h1>
-
+<div class="main-container">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to CivilReg</h1>
+        <p class="lead">The official civil registration system.</p>
+        <hr class="my-4">
+        <p>Search records, manage users, and more.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'search' %}" role="button">Start Searching</a>
+    </div>
+</div>
 {% endblock %}
