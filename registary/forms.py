@@ -20,4 +20,11 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = UserCreationForm.Meta.fields + ("first_name", "last_name", "email")
 
+    def clean_national_id(self):
+        national_id = self.cleaned_data.get('national_id')
+        from .models import UserProfile
+        if UserProfile.objects.filter(national_id=national_id).exists():
+            raise forms.ValidationError("This National ID is already registered.")
+        return national_id
+
     
