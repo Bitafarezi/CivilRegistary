@@ -44,6 +44,7 @@ class UserProfile(models.Model):
             self.last_usage_reset = now
             self.save()
 
+
 class GlobalSettings(models.Model):
     default_daily_limit = models.PositiveIntegerField(default=10)
     default_monthly_limit = models.PositiveIntegerField(default=100)
