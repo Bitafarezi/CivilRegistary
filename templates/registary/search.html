@@ -1,0 +1,96 @@
+{% extends 'registary/base.html' %}
+
+{% block content %}
+<div class="main-container">
+    <h2>Search Civil Records</h2>
+    
+    {% if limit_reached %}
+        <div class="alert alert-danger">
+            You have reached your search limit. Please contact admin for more credits.
+        </div>
+    {% else %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="{% url 'search' %}">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="q" class="form-label">Global Search</label>
+                            <input type="text" name="q" id="q" class="form-control" placeholder="Search by name, surname..." value="{{ query }}">
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Filters</h5>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" name="first_name" id="first_name" class="form-control" value="{{ request.GET.first_name }}">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" class="form-control" value="{{ request.GET.last_name }}">
+                        </div>
+                        {% if user.is_staff %}
+                            <div class="col-md-3 mb-3">
+                                <label for="national_id" class="form-label">National ID</label>
+                                <input type="text" name="national_id" id="national_id" class="form-control" value="{{ request.GET.national_id }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="phone_number" class="form-label">Phone Number</label>
+                                <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ request.GET.phone_number }}">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+
+        {% if results %}
+            <div class="alert alert-info">
+                Found {{ count }} results in {{ duration }} seconds.
+                (Showing top 50)
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            {% if user.is_staff %}
+                                <th>National ID</th>
+                                <th>Phone Number</th>
+                                <th>Father's Name</th>
+                                <th>Birth Date</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for citizen in results %}
+                            <tr>
+                                <td>{{ citizen.first_name }}</td>
+                                <td>{{ citizen.last_name }}</td>
+                                {% if user.is_staff %}
+                                    <td>{{ citizen.national_id }}</td>
+                                    <td>{{ citizen.phone_number }}</td>
+                                    <td>{{ citizen.father_name }}</td>
+                                    <td>{{ citizen.birth_date }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% elif query or request.GET.first_name or request.GET.last_name or request.GET.national_id or request.GET.phone_number %}
+            <div class="alert alert-warning">
+                No results found.
+            </div>
+        {% endif %}
+    {% endif %}
+    
+    <div class="mt-4">
+        <p>Your Consumption: <strong>{{ user_profile.daily_usage }} / {{ user_profile.daily_limit }}</strong> (Daily), 
+        <strong>{{ user_profile.monthly_usage }} / {{ user_profile.monthly_limit }}</strong> (Monthly)</p>
+    </div>
+</div>
+{% endblock %}
