@@ -1,0 +1,26 @@
+{% extends 'registary/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="form-with-validation mt-5">
+            <h4 class="mb-4">Adjust Global Default Limits</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="daily_limit" class="form-label">Default Daily Limit</label>
+                    <input type="number" name="daily_limit" id="daily_limit" class="form-control" value="{{ global_settings.default_daily_limit }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="monthly_limit" class="form-label">Default Monthly Limit</label>
+                    <input type="number" name="monthly_limit" id="monthly_limit" class="form-control" value="{{ global_settings.default_monthly_limit }}" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="form-submit">Update Global Limits</button>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'registary/base.html' %}
+
+{% block content %}
+<div class="main-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Management Dashboard</h2>
+        <span class="badge bg-secondary">Admin Level Access</span>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Global Consumption Settings</h5>
+                    <a href="{% url 'update_global_limits' %}" class="btn btn-sm btn-light">Edit Default Limits</a>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row text-center">
+                        <div class="col-md-6 border-end">
+                            <small class="text-muted d-block">Default Daily Limit</small>
+                            <h3 class="text-primary">{{ global_settings.default_daily_limit }}</h3>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted d-block">Default Monthly Limit</small>
+                            <h3 class="text-primary">{{ global_settings.default_monthly_limit }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">User Consumption Management</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>User Details</th>
+                            <th class="text-center">Daily Usage / Limit</th>
+                            <th class="text-center">Monthly Usage / Limit</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                            <tr>
+                                <td>
+                                    <strong>{{ u.username }}</strong>
+                                    {% if u.is_staff %}<span class="badge bg-info ms-1">Admin</span>{% endif %}
+                                    <div class="small text-muted">{{ u.email }}</div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="{% if u.profile.daily_usage >= u.profile.daily_limit %}text-danger fw-bold{% endif %}">
+                                        {{ u.profile.daily_usage }}
+                                    </span> 
+                                    <span class="text-muted">/ {{ u.profile.daily_limit }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="{% if u.profile.monthly_usage >= u.profile.monthly_limit %}text-danger fw-bold{% endif %}">
+                                        {{ u.profile.monthly_usage }}
+                                    </span>
+                                    <span class="text-muted">/ {{ u.profile.monthly_limit }}</span>
+                                </td>
+                                <td class="text-center">
+                                    {% if u.profile.daily_usage >= u.profile.daily_limit or u.profile.monthly_usage >= u.profile.monthly_limit %}
+                                        <span class="badge bg-danger">Blocked</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'update_user_limits' u.id %}" class="btn btn-sm btn-outline-primary">Adjust Limits</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
