@@ -5,7 +5,6 @@ from .models import UserProfile, Citizen, GlobalSettings
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'daily_usage', 'daily_limit', 'monthly_usage', 'monthly_limit')
     search_fields = ('user__username',)
-    ordering = ('first_name',)
 
 @admin.register(Citizen)
 class CitizenAdmin(admin.ModelAdmin):

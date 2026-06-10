@@ -22,8 +22,8 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_national_id(self):
         national_id = self.cleaned_data.get('national_id')
-        from .models import UserProfile
-        if UserProfile.objects.filter(national_id=national_id).exists():
+        from .models import Citizen
+        if Citizen.objects.filter(national_id=national_id).exclude(profile=None).exists():
             raise forms.ValidationError("This National ID is already registered.")
         return national_id
 
