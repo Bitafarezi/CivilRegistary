@@ -22,4 +22,7 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(template_name="registary/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(template_name="registary/logout.html"), name="logout"),
     path("search/", search_view, name="search"),
+    path("management/", admin_dashboard, name="admin_dashboard"),
+    path("management/user/<int:user_id>/", update_user_limits, name="update_user_limits"),
+    path("management/global/", update_global_limits, name="update_global_limits"),
 ]
