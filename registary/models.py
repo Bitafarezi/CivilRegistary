@@ -26,11 +26,6 @@ class UserProfile(models.Model):
     daily_usage = models.PositiveIntegerField(default=0)
     monthly_usage = models.PositiveIntegerField(default=0)
     last_usage_reset = models.DateTimeField(default=timezone.now)
-    national_id = models.CharField(max_length=10, unique=True, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
-    father_name = models.CharField(max_length=100, null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
