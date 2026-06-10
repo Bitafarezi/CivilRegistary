@@ -9,6 +9,52 @@ from .forms import UserRegistrationForm, UserUpdateForm
 from .models import Citizen, UserProfile, GlobalSettings
 
 
+@staff_member_required
+def admin_dashboard(request):
+    users = User.objects.all().select_related('profile')
+    
+    # Ensure all users have up-to-date usage data before displaying
+    for user in users:
+        if hasattr(user, 'profile'):
+            user.profile.reset_usage_if_needed()
+            
+    global_settings = GlobalSettings.objects.first()
+    if not global_settings:
+        global_settings = GlobalSettings.objects.create()
+    
+    context = {
+        'users': users,
+        'global_settings': global_settings,
+    }
+    return render(request, 'registary/admin_dashboard.html', context)
+
+@staff_member_required
+def update_user_limits(request, user_id):
+    user = User.objects.get(id=user_id)
+    profile = user.profile
+    if request.method == "POST":
+        profile.daily_limit = int(request.POST.get('daily_limit', profile.daily_limit))
+        profile.monthly_limit = int(request.POST.get('monthly_limit', profile.monthly_limit))
+        profile.save()
+        messages.success(request, f"Limits updated for {user.username}")
+        return redirect('admin_dashboard')
+    return render(request, 'registary/update_user.html', {'target_user': user})
+
+@staff_member_required
+def update_global_limits(request):
+    global_settings = GlobalSettings.objects.first()
+    if not global_settings:
+        global_settings = GlobalSettings.objects.create()
+    
+    if request.method == "POST":
+        global_settings.default_daily_limit = int(request.POST.get('daily_limit', global_settings.default_daily_limit))
+        global_settings.default_monthly_limit = int(request.POST.get('monthly_limit', global_settings.default_monthly_limit))
+        global_settings.save()
+        messages.success(request, "Global limits updated")
+        return redirect('admin_dashboard')
+    return render(request, 'registary/update_global.html', {'global_settings': global_settings})
+
+
 @login_required
 def home_view(request):
     return render(request, 'registary/home.html')
